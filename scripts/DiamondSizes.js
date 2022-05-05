@@ -1,4 +1,5 @@
-import { getSizes, setSize } from "./database.js"
+import { getSizes, setSize, setSizeSubtotal } from "./database.js"
+import { Sum } from "./Type.js"
 
 const sizes = getSizes()
 
@@ -7,6 +8,12 @@ document.addEventListener(
     (event) => {
         if (event.target.name === "size") {
             setSize(parseInt(event.target.value))
+            const clickedSize = sizes.find(size => parseInt(event.target.value) === size.id)
+            setSizeSubtotal(clickedSize.price)
+            document.querySelector('.subtotal__text').innerHTML = Sum().toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            })
         }
     }
 )

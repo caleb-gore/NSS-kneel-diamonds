@@ -36,23 +36,32 @@ const database = {
             timestamp: 1614659931693
         }
     ],
-    orderBuilder: {}
+    orderBuilder: {
+        metalId: 0,
+        styleId: 0,
+        sizeId: 0,
+    },
+    subtotalBuilder: {
+        metalPrice: 0,
+        stylePrice: 0,
+        sizePrice: 0
+    }
 }
 
 export const getMetals = () => {
-    return database.metals.map(metal => ({...metal}))
+    return database.metals.map(metal => ({ ...metal }))
 }
 
 export const getSizes = () => {
-    return database.sizes.map(size => ({...size}))
+    return database.sizes.map(size => ({ ...size }))
 }
 
 export const getStyles = () => {
-    return database.styles.map(style => ({...style}))
+    return database.styles.map(style => ({ ...style }))
 }
 
 export const getOrders = () => {
-    return database.customOrders.map(order => ({...order}))
+    return database.customOrders.map(order => ({ ...order }))
 }
 
 // adds property to the orderBuilder object using argument from Metals function call (inside of event listener)
@@ -68,11 +77,39 @@ export const setStyle = (id) => {
     database.orderBuilder.styleId = id
 }
 
+export const setMetalSubtotal = (price) => {
+    database.subtotalBuilder.metalPrice = price
+    console.log(database.subtotalBuilder)
+}
 
+export const setStyleSubtotal = (price) => {
+    database.subtotalBuilder.stylePrice = price
+    console.log(database.subtotalBuilder)
+}
+
+export const setSizeSubtotal = (price) => {
+    database.subtotalBuilder.sizePrice = price
+    console.log(database.subtotalBuilder)
+}
+
+export const getSubtotalBuilder = () => {
+    return database.subtotalBuilder // object
+}
+
+export const setSubtotalBuilder = () => {
+    database.subtotalBuilder = {
+        metalPrice: 0,
+        stylePrice: 0,
+        sizePrice: 0
+    }
+}
+export const getOrderBuilder = () => {
+    return database.orderBuilder
+}
 // is called from KneelDiamonds.js when 'create custom order' button is clicked
 export const addCustomOrder = () => {
     // copy the current state of user choices
-    const newOrder = {...database.orderBuilder}
+    const newOrder = { ...database.orderBuilder }
 
     // Add a new primary key to the object
     const lastIndex = database.customOrders.length - 1
@@ -85,7 +122,7 @@ export const addCustomOrder = () => {
     database.customOrders.push(newOrder)
 
     //Reset the temporary state for the user choices
-    database.orderBuilder = {}
+    database.orderBuilder = { metalId: 0, styleId: 0, sizeId: 0 }
 
     // Broadcast a notification that permanent state has changed
     document.dispatchEvent(new CustomEvent("stateChanged"))

@@ -1,5 +1,5 @@
 
-import { addCustomOrder } from "./database.js"
+import { addCustomOrder, getOrderBuilder, setSubtotalBuilder } from "./database.js"
 import { DiamondSizes } from "./DiamondSizes.js"
 import { JewelryStyles } from "./JewelryStyles.js"
 import { Metals } from "./Metals.js"
@@ -12,14 +12,20 @@ document.addEventListener(
     (event) => {
         if (event.target.id === "orderButton") {
             // calls this function from database.js
-            addCustomOrder()
-            // Create and display new HTML
-            const orderHTML = document.querySelector(".orders")
-            orderHTML.innerHTML += Orders()
-            
-            // clear checked boxes
-            const ckbxs = document.querySelectorAll('input[name="type"], input[name="metal"], input[name="size"], input[name="style"]' )
-            ckbxs.forEach(ckbx => ckbx.checked = false)
+            const orderBuilder = getOrderBuilder()
+            if (orderBuilder.metalId > 0 && orderBuilder.sizeId > 0 && orderBuilder.styleId > 0) {
+                addCustomOrder()
+                // Create and display new HTML
+                const orderHTML = document.querySelector(".orders")
+                orderHTML.innerHTML += Orders()
+                
+                // clear checked boxes
+                const ckbxs = document.querySelectorAll('input[name="type"], input[name="metal"], input[name="size"], input[name="style"]' )
+                ckbxs.forEach(ckbx => ckbx.checked = false)
+
+                setSubtotalBuilder()
+                document.querySelector('.subtotal__text').innerHTML = `$0.00`
+            }
         }
     }
 )
@@ -51,6 +57,12 @@ export const KneelDiamonds = () => {
             <button id="orderButton">Create Custom Order</button>
         </article>
 
+        <article class="subtotal">
+            <h3>Subtotal</h3>
+            <div class="subtotal__text">
+            $0.00
+            </div>
+        </article>
         <article class="customOrders">
             <h2>Custom Jewelry Orders</h2>
             <ul class="orders">

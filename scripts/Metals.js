@@ -1,4 +1,5 @@
-import { getMetals, setMetal } from "./database.js"
+import { getMetals, setMetal, setMetalSubtotal } from "./database.js"
+import { Sum } from "./Type.js"
 
 // assigns copy of metals array to variable 'metals'
 const metals = getMetals()
@@ -11,6 +12,13 @@ document.addEventListener(
         if (event.target.name === "metal") {
             // calls function from database.js using 'value' as parameter
             setMetal(parseInt(event.target.value))
+            const clickedMetal = metals.find(metal => parseInt(event.target.value) === metal.id)
+            setMetalSubtotal(clickedMetal.price)
+            document.querySelector('.subtotal__text').innerHTML = Sum().toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            })
+            
         }
     }
 )

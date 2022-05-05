@@ -1,4 +1,5 @@
-import { getStyles, setStyle } from "./database.js"
+import { getStyles, setStyle, setStyleSubtotal } from "./database.js"
+import { Sum } from "./Type.js"
 
 const styles = getStyles()
 
@@ -7,6 +8,12 @@ document.addEventListener(
     (event) => {
         if (event.target.name === "style") {
             setStyle(parseInt(event.target.value))
+            const clickedStyle = styles.find(style => parseInt(event.target.value) === style.id)
+            setStyleSubtotal(clickedStyle.price)
+            document.querySelector('.subtotal__text').innerHTML = Sum().toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            })
         }
     }
 )
