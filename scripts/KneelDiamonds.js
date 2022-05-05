@@ -4,12 +4,22 @@ import { DiamondSizes } from "./DiamondSizes.js"
 import { JewelryStyles } from "./JewelryStyles.js"
 import { Metals } from "./Metals.js"
 import { Orders } from "./Orders.js"
+import { Type } from "./Type.js"
 
+// listens for button click and then...
 document.addEventListener(
     "click",
     (event) => {
         if (event.target.id === "orderButton") {
+            // calls this function from database.js
             addCustomOrder()
+            // Create and display new HTML
+            const orderHTML = document.querySelector(".orders")
+            orderHTML.innerHTML += Orders()
+            
+            // clear checked boxes
+            const ckbxs = document.querySelectorAll('input[name="type"], input[name="metal"], input[name="size"], input[name="style"]' )
+            ckbxs.forEach(ckbx => ckbx.checked = false)
         }
     }
 )
@@ -33,13 +43,18 @@ export const KneelDiamonds = () => {
             </section>
         </article>
 
+        <article class="type">
+            ${Type()}
+        </article>
+
         <article>
             <button id="orderButton">Create Custom Order</button>
         </article>
 
         <article class="customOrders">
             <h2>Custom Jewelry Orders</h2>
-            ${Orders()}
+            <ul class="orders">
+            </ul>
         </article>
     `
 }

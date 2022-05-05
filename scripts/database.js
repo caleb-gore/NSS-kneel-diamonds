@@ -29,7 +29,7 @@ const database = {
     ],
     customOrders: [
         {
-            id: 1,
+            id: 0,
             metalId: 3,
             sizeId: 2,
             styleId: 3,
@@ -55,6 +55,7 @@ export const getOrders = () => {
     return database.customOrders.map(order => ({...order}))
 }
 
+// adds property to the orderBuilder object using argument from Metals function call (inside of event listener)
 export const setMetal = (id) => {
     database.orderBuilder.metalId = id
 }
@@ -67,6 +68,8 @@ export const setStyle = (id) => {
     database.orderBuilder.styleId = id
 }
 
+
+// is called from KneelDiamonds.js when 'create custom order' button is clicked
 export const addCustomOrder = () => {
     // copy the current state of user choices
     const newOrder = {...database.orderBuilder}
